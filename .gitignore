@@ -2,3 +2,5 @@
 *.png
 
 nohup.out
+
+__pycache__/
