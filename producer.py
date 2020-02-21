@@ -10,6 +10,7 @@ def getFrame(sec):
 
 
 def send_img(title,img,socket):
+    img = img.astype(np.uint8)
     sent = {
     'img': img.tolist(),
     'title':title
@@ -20,7 +21,7 @@ def send_img(title,img,socket):
 
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
-socket.bind("tcp://*:5344")
+socket.bind("tcp://10.8.0.6:5555")
 #read video
 vidcap = cv2.VideoCapture('tgf.webm')
 li = []
