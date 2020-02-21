@@ -20,7 +20,7 @@ def send_img(title,img,socket):
 
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
-socket.bind("tcp://*:5344")
+socket.bind("tcp://10.8.0.10:5333")
 #read video
 vidcap = cv2.VideoCapture('tgf.webm')
 li = []

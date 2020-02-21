@@ -11,7 +11,7 @@ context = zmq.Context()
 
 #  Socket to talk to server
 socket = context.socket(zmq.PULL)
-socket.connect("tcp://localhost:5344")
+socket.connect("tcp://10.8.0.10:5333")
 
 
 while True:
