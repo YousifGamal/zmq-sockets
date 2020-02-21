@@ -1,4 +1,7 @@
 from commonfunctions import *
+import sys
+ip = sys.argv[1]
+videoName = sys.argv[2]
 #if there still frames return true  with the image else return false
 def getFrame(sec):
     vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
@@ -18,13 +21,9 @@ def send_img(title,img,socket):
     jobj = json.dumps(sent)
     socket.send_json(jobj)
 
-
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
-
-
-socket.bind("tcp://127.0.0.1:5554")
-
+socket.bind("tcp://"+ip+":5333")
 #read video
 vidcap = cv2.VideoCapture('tgf.webm')
 li = []
