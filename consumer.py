@@ -3,7 +3,7 @@ from commonfunctions import *
 def recv_img(json_obj,socket):
     rec = json.loads(json_obj)
 
-    img = np.asarray(rec["img"])
+    img = np.asarray(rec["img"],dtype=np.uint8)
     return img,rec["title"]
 
 
@@ -17,4 +17,5 @@ socket.connect("tcp://localhost:5344")
 while True:
     msg = socket.recv_json()
     img,title = recv_img(msg,socket)
+    img = rgb2gray(img)
     io.imsave(title + ".png",img)

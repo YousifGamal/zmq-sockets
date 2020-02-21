@@ -38,8 +38,3 @@ while success:
     success,img = getFrame(sec)
 #show_images(li)
 print(len(li))
-
-
-
-
-
