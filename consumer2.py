@@ -2,8 +2,9 @@ from commonfunctions import *
 import sys
 consumerNumber = int(sys.argv[1])
 collector1Port = 5600 + math.ceil(consumerNumber/2.0)
-collector2Port = 5800 + math.ceil(consumerNumber/2.0)
+collector2Port = 5800
 IP_Machine1 = str(sys.argv[2])
+print("created: consumer2 number ",consumerNumber,"with ip",IP_Machine1)
 
 
 
@@ -54,11 +55,12 @@ timer = time.monotonic()
 while True:
     try:
         msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
+        print("cons2 rec")
         img,title = recv_img(msg)
         boxes = get_contours(img)
         send_boxes(title,boxes,socket_push)
-        print(len(boxes))
     except zmq.Again:
         if (time.monotonic() > timer + 120):
             break
 
+print("killed: consumer2 number ",consumerNumber)

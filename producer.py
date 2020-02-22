@@ -2,6 +2,8 @@ from commonfunctions import *
 import sys
 videoName = sys.argv[1]
 #if there still frames return true  with the image else return false
+print("created: producer")
+
 def getFrame(sec):
     vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
     hasFrames,image = vidcap.read()
@@ -35,10 +37,12 @@ while success:
     li.append(img)
     
     send_img(str(count),img,socket)
-    print(count)
     count = count + 1
     sec = sec + frameRate
     sec = round(sec, 2)
     success,img = getFrame(sec)
 #show_images(li)
-print(len(li))
+timer = time.monotonic()
+while(time.monotonic() < timer+120):
+    continue
+print("killed: producer")

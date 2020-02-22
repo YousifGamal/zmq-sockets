@@ -6,6 +6,7 @@ import time
 collectorNumber = int(sys.argv[1])
 collector1Port = str(5400 + collectorNumber)
 collector1PortPush = str(5600 + collectorNumber)
+print("created: collector1 number ",collectorNumber)
 
 IP_Machine1 = str(sys.argv[2])
 
@@ -33,4 +34,4 @@ while True:
     except zmq.Again:
         if (time.monotonic() > timer + 120):
             break
-    
+print("killed: collector1 number ",collectorNumber)

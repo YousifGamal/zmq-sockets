@@ -3,8 +3,10 @@ import sys
 import math
 import time
 consumerNumber = int(sys.argv[1])
+
+print("created: consumer1 number ",consumerNumber)
+
 collector1Port = 5400 + math.ceil(consumerNumber/2.0)
-print(consumerNumber)
 def recv_img(json_obj):
     rec = json.loads(json_obj)
 
@@ -43,6 +45,7 @@ while True:
         send_img(title,img,socketPush)
         timer = time.monotonic()
     except zmq.Again:
-        if (time.monotonic() > timer + 10):
+        if (time.monotonic() > timer + 120):
             break
+print("killed: consumer1 number ",consumerNumber)
 
