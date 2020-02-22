@@ -4,7 +4,7 @@ consumerNumber = int(sys.argv[1])
 collector1Port = 5600 + math.ceil(consumerNumber/2.0)
 collector2Port = 5800
 IP_Machine1 = str(sys.argv[2])
-print("created: consumer2 number ",consumerNumber,"with ip",IP_Machine1)
+print("created: consumer2 number ",consumerNumber,"with ip",IP_Machine1,collector1Port)
 
 
 

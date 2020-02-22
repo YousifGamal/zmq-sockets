@@ -6,7 +6,7 @@ import time
 collectorNumber = int(sys.argv[1])
 collector1Port = str(5400 + collectorNumber)
 collector1PortPush = str(5600 + collectorNumber)
-print("created: collector1 number ",collectorNumber)
+print("created: collector1 number ",collectorNumber,collector1Port,collector1PortPush)
 
 IP_Machine1 = str(sys.argv[2])
 

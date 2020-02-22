@@ -17,10 +17,13 @@ then
     python producer.py $videoName &
 
     collector1Counter=$(( $consumerCount / 2 ))
-    if [ $(($collector1Counter%2)) -eq 0 ]
+    echo $collector1Counter
+
+    if [ $(($consumerCount%2)) -eq 1 ]
     then
         collector1Counter=$(( $collector1Counter + 1 ))
     fi
+    echo $collector1Counter
     while [ $collector1Counter -gt 0 ]
     do
         python collector.py $collector1Counter $ip &

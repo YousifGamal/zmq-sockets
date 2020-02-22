@@ -4,9 +4,10 @@ import math
 import time
 consumerNumber = int(sys.argv[1])
 
-print("created: consumer1 number ",consumerNumber)
 
 collector1Port = 5400 + math.ceil(consumerNumber/2.0)
+print("created: consumer1 number ",consumerNumber,collector1Port)
+
 def recv_img(json_obj):
     rec = json.loads(json_obj)
 
