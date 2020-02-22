@@ -32,6 +32,6 @@ while True:
         socket_push.send_json(msg)
         timer = time.monotonic()
     except zmq.Again:
-        if (time.monotonic() > timer + 120):
+        if (time.monotonic() > timer + 300):
             break
 print("killed: collector1 number ",collectorNumber)

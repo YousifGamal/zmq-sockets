@@ -55,12 +55,13 @@ timer = time.monotonic()
 while True:
     try:
         msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
-        print("cons2 rec")
+        print("cons2 rec",consumerNumber)
         img,title = recv_img(msg)
         boxes = get_contours(img)
         send_boxes(title,boxes,socket_push)
+        timer = time.monotonic()
     except zmq.Again:
-        if (time.monotonic() > timer + 120):
+        if (time.monotonic() > timer + 300):
             break
 
 print("killed: consumer2 number ",consumerNumber)

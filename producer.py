@@ -37,12 +37,13 @@ while success:
     li.append(img)
     
     send_img(str(count),img,socket)
+    print("produced")
     count = count + 1
     sec = sec + frameRate
     sec = round(sec, 2)
     success,img = getFrame(sec)
 #show_images(li)
 timer = time.monotonic()
-while(time.monotonic() < timer+120):
+while(time.monotonic() < timer+300):
     continue
 print("killed: producer")
