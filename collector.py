@@ -1,4 +1,15 @@
 from commonfunctions import *
+import sys
+import time
+
+
+collectorNumber = int(sys.argv[1])
+collector1Port = str(5400 + collectorNumber)
+collector1PortPush = str(5600 + collectorNumber)
+
+IP_Machine1 = str(sys.argv[2])
+
+
 
 
 context = zmq.Context()
@@ -6,14 +17,20 @@ context = zmq.Context()
 #  Socket to get binary images
 socket_pull = context.socket(zmq.PULL)
 
-socket_pull.bind("tcp://127.0.0.1:5656")
+socket_pull.bind("tcp://127.0.0.1:"+collector1Port)
 
 #socket to send the boxes (contours)
 
 socket_push = context.socket(zmq.PUSH)
 
-socket_push.bind("tcp://127.0.0.1:5569")
-
+socket_push.bind("tcp://"+IP_Machine1+":"+collector1PortPush)
+timer = time.monotonic()
 while True:
-    msg = socket_pull.recv_json()
-    socket_push.send_json(msg)
+    try:
+        msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
+        socket_push.send_json(msg)
+        timer = time.monotonic()
+    except zmq.Again:
+        if (time.monotonic() > timer + 120):
+            break
+    
