@@ -1,5 +1,6 @@
 from commonfunctions import *
 import sys
+import pickle
 consumerNumber = int(sys.argv[1])
 collector1Port = 5600 + math.ceil(consumerNumber/2.0)
 collector2Port = 5800
@@ -8,8 +9,8 @@ print("created: consumer2 number ",consumerNumber,"with ip",IP_Machine1,collecto
 
 
 
-def recv_img(json_obj):
-    rec = json.loads(json_obj)
+def recv_img(obj):
+    rec = pickle.loads(obj)
 
     img = np.asarray(rec["img"],dtype=np.uint8)
     return img,rec["title"]
@@ -54,7 +55,7 @@ timer = time.monotonic()
 
 while True:
     try:
-        msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
+        msg = socket_pull.recv(flags=zmq.NOBLOCK)
         print("cons2 rec",consumerNumber)
         img,title = recv_img(msg)
         boxes = get_contours(img)

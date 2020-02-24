@@ -1,7 +1,7 @@
 from commonfunctions import *
 import sys
 import time
-
+import pickle
 
 collectorNumber = int(sys.argv[1])
 collector1Port = str(5400 + collectorNumber)
@@ -29,9 +29,12 @@ timer = time.monotonic()
 while True:
     try:
         msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
-        socket_push.send_json(msg)
+        msg = json.loads(msg)
+        msg = pickle.dumps(msg)
+        socket_push.send(msg)
         timer = time.monotonic()
     except zmq.Again:
         if (time.monotonic() > timer + 300):
             break
 print("killed: collector1 number ",collectorNumber)
+

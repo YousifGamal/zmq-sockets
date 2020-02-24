@@ -30,7 +30,7 @@ socketPush = context.socket(zmq.PUSH)
 
 socketPull.connect("tcp://127.0.0.1:5333")
 socketPush.connect("tcp://127.0.0.1:"+str(collector1Port))
-
+binary = np.vectorize(lambda x,y: (255) if x>y else 0)
 timer = time.monotonic()
 while True:
     
@@ -41,8 +41,8 @@ while True:
         img,title = recv_img(msg)
         img = rgb2gray(img)
         T = threshold_otsu(img)
-        binary = np.vectorize(lambda x: (255) if x>T else 0)
-        img = binary(img)
+        
+        img = binary(img,T)
         # io.imsave(title+" from consumer "+str(consumerNumber) + ".png",img)
         send_img(title,img,socketPush)
         timer = time.monotonic()
