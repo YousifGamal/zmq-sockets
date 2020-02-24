@@ -28,9 +28,7 @@ socket_push.bind("tcp://"+IP_Machine1+":"+collector1PortPush)
 timer = time.monotonic()
 while True:
     try:
-        msg = socket_pull.recv_json(flags=zmq.NOBLOCK)
-        msg = json.loads(msg)
-        msg = pickle.dumps(msg)
+        msg = socket_pull.recv(flags=zmq.NOBLOCK)
         socket_push.send(msg)
         timer = time.monotonic()
     except zmq.Again:

@@ -30,8 +30,8 @@ def send_boxes(title,boxes,socket):
         "boxes": boxes,
         "count": len(boxes)
     }
-    j_obj = json.dumps(sent)
-    socket.send_json(j_obj)
+    obj = pickle.dumps(sent)
+    socket.send(obj)
 
 
 

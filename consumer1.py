@@ -2,14 +2,15 @@ from commonfunctions import *
 import sys
 import math
 import time
+import pickle
 consumerNumber = int(sys.argv[1])
 
 
 collector1Port = 5400 + math.ceil(consumerNumber/2.0)
 print("created: consumer1 number ",consumerNumber,collector1Port)
 
-def recv_img(json_obj):
-    rec = json.loads(json_obj)
+def recv_img(obj):
+    rec = pickle.loads(obj)
 
     img = np.asarray(rec["img"],dtype=np.uint8)
     return img,rec["title"]
@@ -19,8 +20,8 @@ def send_img(title,img,socket):
     'img': img.tolist(),
     'title':title
     }
-    jobj = json.dumps(sent)
-    socket.send_json(jobj)
+    obj = pickle.dumps(sent)
+    socket.send(obj)
 
 context = zmq.Context()
 
@@ -35,7 +36,7 @@ timer = time.monotonic()
 while True:
     
     try:
-        msg = socketPull.recv_json(flags=zmq.NOBLOCK)
+        msg = socketPull.recv(flags=zmq.NOBLOCK)
         print("cons1 rec",consumerNumber)
         timer = time.monotonic()
         img,title = recv_img(msg)

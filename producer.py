@@ -19,8 +19,8 @@ def send_img(title,img,socket):
     'img': img.tolist(),
     'title':title
     }
-    jobj = json.dumps(sent)
-    socket.send_json(jobj)
+    obj = pickle.dumps(sent)
+    socket.send(obj)
 
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)

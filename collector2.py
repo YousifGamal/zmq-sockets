@@ -14,9 +14,9 @@ timer = time.monotonic()
 
 while True:
     try:
-        msg = socket.recv_json(flags=zmq.NOBLOCK)
+        msg = socket.recv(flags=zmq.NOBLOCK)
         print("collector2 rec")
-        msg_dict = json.loads(msg)
+        msg_dict = pickle.loads(msg)
         json.dump(msg_dict,file)
         file.write("\n\n\n")
         timer = time.monotonic()
