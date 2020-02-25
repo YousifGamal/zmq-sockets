@@ -21,6 +21,7 @@ while True:
         file.write("\n\n\n")
         timer = time.monotonic()
     except zmq.Again:
+        time.sleep(1)
         if (time.monotonic() > timer + 300):
             break
 print("killed: collector2")

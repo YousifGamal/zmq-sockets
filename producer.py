@@ -1,16 +1,29 @@
 from commonfunctions import *
+import cv2
 import sys
 videoName = sys.argv[1]
 #if there still frames return true  with the image else return false
 print("created: producer")
+cap = cv2.VideoCapture(videoName)
+if (cap.isOpened()== False): 
+  print("Error opening video stream or file")
 
-def getFrame(sec):
-    vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
-    hasFrames,image = vidcap.read()
-    if hasFrames:
-        return hasFrames,image
-        #cv2.imwrite("image"+str(count)+".png", image)     # save frame as JPG file
-    return hasFrames, None
+
+def getFrame():
+    global cap
+    if cap.isOpened():
+        ret, frame = cap.read()
+        if ret:
+            return ret, frame;
+        return ret, None
+    else:
+        print("error")
+        return False, None
+    # hasFrames,image = vidcap.read()
+    # if hasFrames:
+    #     return hasFrames,image
+    #     #cv2.imwrite("image"+str(count)+".png", image)     # save frame as JPG file
+    # return hasFrames, None
 
 
 def send_img(title,img,socket):
@@ -20,30 +33,25 @@ def send_img(title,img,socket):
     'title':title
     }
     obj = pickle.dumps(sent)
-    socket.send(obj)
+    socket.send(obj,copy=False)
 
 context = zmq.Context()
 socket = context.socket(zmq.PUSH)
 socket.bind("tcp://127.0.0.1:5333")
 #read video
-vidcap = cv2.VideoCapture(videoName)
+# vidcap = cv2.VideoCapture(videoName)
 li = []
-sec = 0
-frameRate = 0.2 #//it will capture image in each 0.5 second
 count=1
-success,img = getFrame(sec)
+success,img = getFrame()
 
 while success:
     li.append(img)
-    
     send_img(str(count),img,socket)
-    print("produced")
+    print("produced " + str(count))
     count = count + 1
-    sec = sec + frameRate
-    sec = round(sec, 2)
-    success,img = getFrame(sec)
+    success,img = getFrame()
 #show_images(li)
 timer = time.monotonic()
-while(time.monotonic() < timer+300):
-    continue
+
+cap.release()
 print("killed: producer")

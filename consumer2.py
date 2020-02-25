@@ -31,7 +31,7 @@ def send_boxes(title,boxes,socket):
         "count": len(boxes)
     }
     obj = pickle.dumps(sent)
-    socket.send(obj)
+    socket.send(obj,copy=False)
 
 
 
@@ -62,6 +62,7 @@ while True:
         send_boxes(title,boxes,socket_push)
         timer = time.monotonic()
     except zmq.Again:
+        time.sleep(1)
         if (time.monotonic() > timer + 300):
             break
 

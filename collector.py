@@ -29,9 +29,10 @@ timer = time.monotonic()
 while True:
     try:
         msg = socket_pull.recv(flags=zmq.NOBLOCK)
-        socket_push.send(msg)
+        socket_push.send(msg,copy=False)
         timer = time.monotonic()
     except zmq.Again:
+        time.sleep(1)
         if (time.monotonic() > timer + 300):
             break
 print("killed: collector1 number ",collectorNumber)

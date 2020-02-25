@@ -21,7 +21,7 @@ def send_img(title,img,socket):
     'title':title
     }
     obj = pickle.dumps(sent)
-    socket.send(obj)
+    socket.send(obj,copy=False)
 
 context = zmq.Context()
 
@@ -48,6 +48,7 @@ while True:
         send_img(title,img,socketPush)
         timer = time.monotonic()
     except zmq.Again:
+        time.sleep(1)
         if (time.monotonic() > timer + 300):
             break
 print("killed: consumer1 number ",consumerNumber)
